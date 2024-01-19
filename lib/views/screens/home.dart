@@ -1,12 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:wallpaper_app/controller/apiOper.dart';
+import 'package:wallpaper_app/views/screens/fullScreen.dart';
 import 'package:wallpaper_app/views/widgets/CustomAppBar.dart';
 import 'package:wallpaper_app/views/widgets/SearchBar.dart';
 
+import '../../models/photosModel.dart';
 import '../widgets/catBlock.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late List<PhotosModel>  wallpapersList=[];
+
+  getWallList() async{
+    wallpapersList= await ApiOperations.getTrendingWallpapers();
+
+    setState(() {
+
+    });
+  }
+  @override
+  void initState() {
+
+    super.initState();
+    getWallList();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 30,
+                  itemCount: wallpapersList.length,
                   itemBuilder: ((context,index) => CatBlock()),
                 ),
               ),
@@ -43,26 +66,36 @@ class HomeScreen extends StatelessWidget {
                       crossAxisCount: 2,
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 15
-              
+
                   ) ,
+                  itemCount: wallpapersList.length,
                   itemBuilder: ((context,index)=>GridTile(
-                    child: Container(
-                      height: 400,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.tealAccent,
-                          borderRadius: BorderRadius.circular(20)
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.network(
-                            height: 400,
-                            width: 50,
-                            fit: BoxFit.cover,
-                            "https://images.pexels.com/photos/19685003/pexels-photo-19685003/free-photo-of-small-lizard-climbing-a-palm-tree.jpeg"),
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> FullScreen(imgUrl: wallpapersList[index].imgSrc)));
+                      },
+                      child: Hero(
+                        tag: wallpapersList[index].imgSrc,
+                        child: Container(
+                          height: 700,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.tealAccent,
+                              borderRadius: BorderRadius.circular(20)
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.network(
+                                height: 700,
+                                width: 50,
+                                fit: BoxFit.cover,
+                                wallpapersList[index].imgSrc,
+                            ),
+                          ),
+                        ),
                       ),
                     )
-              
+
                   ))),
             )
           ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class CatBlock extends StatelessWidget {
 
+ const CatBlock({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class CatBlock extends StatelessWidget {
               height: 50,
               width: 100,
               fit: BoxFit.cover,
-              "https://images.pexels.com/photos/19708337/pexels-photo-19708337/free-photo-of-samoyed-dog-in-the-snow.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+              "https://images.pexels.com/photos/19708337/pexels-photo-19708337/free-photo-of-samoyed-dog-in-the-snow.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
             ),
           ),
           Container(
