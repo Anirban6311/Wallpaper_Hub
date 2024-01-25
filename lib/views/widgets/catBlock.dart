@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CatBlock extends StatelessWidget {
-
  const CatBlock({super.key});
 
   @override

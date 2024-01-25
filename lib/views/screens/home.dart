@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: CustomAppBar(),
       ),
 
-      body: SingleChildScrollView(
+      body: isLoading ? Center(child: CircularProgressIndicator(),) : SingleChildScrollView(
         child: Column(
           children: [
             Container(
@@ -60,43 +60,44 @@ class _HomeScreenState extends State<HomeScreen> {
               margin: EdgeInsets.symmetric(horizontal: 10),
               height: MediaQuery.of(context).size.height,
               child: GridView.builder(
-                  physics: BouncingScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisExtent: 400,
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 15
-
-                  ) ,
-                  itemCount: wallpapersList.length,
-                  itemBuilder: ((context,index)=>GridTile(
-                    child: InkWell(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> FullScreen(imgUrl: wallpapersList[index].imgSrc)));
-                      },
-                      child: Hero(
-                        tag: wallpapersList[index].imgSrc,
-                        child: Container(
-                          height: 700,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.tealAccent,
-                              borderRadius: BorderRadius.circular(20)
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.network(
-                                height: 700,
-                                width: 50,
-                                fit: BoxFit.cover,
-                                wallpapersList[index].imgSrc,
-                            ),
+                physics: BouncingScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  mainAxisExtent: 400,
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 15,
+                ),
+                itemCount: wallpapersList.length,
+                itemBuilder: (context, index) => GridTile(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FullScreen(imgUrl: wallpapersList[index].imgSrc),
+                        ),
+                      );
+                    },
+                    child: Hero(
+                      tag: wallpapersList[index].imgSrc,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.tealAccent,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                            wallpapersList[index].imgSrc,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
-                    )
+                    ),
+                  ),
+                ),
+              )
 
-                  ))),
             )
           ],
         ),
